@@ -14,13 +14,10 @@ class UserManager(BaseUserManager):
         if not email:
             raise ValueError('Users must have an email address')
 
-        if not display_name:
-            display_name = username
 
         user = self.model(
             email=self.normalize_email(email),
-            username = username,
-            display_name = display_name
+            name = first_name,
         )
 
         user.set_password(password)
@@ -34,8 +31,8 @@ class UserManager(BaseUserManager):
         """
         user = self.create_user(
             email,
-            username,
-            display_name,
+            first_name,
+            last_name,
             password
         )
         user.is_admin = True
@@ -50,10 +47,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         max_length=255,
         unique=True,
     )
-    username = models.CharField(max_length=40, unique=True)
-    display_name = models.CharField(max_length=140)
-    bio = models.CharField(max_length=40, blank=True, default="")
-    avatar = models.ImageField(lank=True, null=True)
+    first_name = models.CharField(max_length=40, unique=True)
+    last_name = models.CharField(max_length=140)
     date_joined = models.DateTimeField(default=timezone.now)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -69,10 +64,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         # The user is identified by their email address
-        return self.username
+        return self.first_name
 
     def __str__(self):              # __unicode__ on Python 2
-        return self.username
+        return self.first_name
 
     def has_perm(self, perm, obj=None):
         "Does the user have a specific permission?"
