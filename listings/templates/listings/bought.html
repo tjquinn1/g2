@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+<head>
+    <meta charset="utf-8">
+    <script src="https://js.braintreegateway.com/web/dropin/1.8.0/js/dropin.min.js"></script>
+</head>
+
+
+
+{% block content %}
+<h1>{{ listing.name }}</h1>
+<div class="row">
+    <form  method="post" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="hidden" name="seller" value="{{ listing.user_id }}" />
+        <input type="submit" value="Submit" />
+    </form>
+</div>
+
+{% endblock %}
