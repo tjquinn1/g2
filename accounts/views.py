@@ -2,6 +2,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.urlresolvers import reverse_lazy
 from django.views import generic
+from django.contrib.auth import authenticate
 
 from . import forms
 
@@ -31,5 +32,11 @@ class LogoutView(generic.RedirectView):
 
 class SignUp(generic.CreateView):
     form_class = forms.UserCreateForm
-    success_url = ""
+    success_url = reverse_lazy("home")
     template_name = "accounts/signup.html"
+    def form_valid(self, form):
+        valid = super(SignUp, self).form_valid(form)
+        email, password = form.cleaned_data.get('email'), form.cleaned_data.get('password1')
+        new_user = authenticate(email=email, password=password)
+        login(self.request, new_user)
+        return valid

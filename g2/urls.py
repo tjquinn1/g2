@@ -26,6 +26,8 @@ urlpatterns = [
     url(r"^admin/", admin.site.urls),
     url(r'^listings/', include('listings.urls', namespace='listings')),
     url(r"^accounts/", include("django.contrib.auth.urls")),
+    url(r"^accounts/", include("accounts.urls")),
+    url(r'^sellers/', include('sellers.urls', namespace='sellers')),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
