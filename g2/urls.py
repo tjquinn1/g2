@@ -25,8 +25,9 @@ urlpatterns = [
     url(r"^$", views.Home.as_view(), name="home"),
     url(r"^admin/", admin.site.urls),
     url(r'^listings/', include('listings.urls', namespace='listings')),
-    url(r"^accounts/", include("django.contrib.auth.urls")),
     url(r"^accounts/", include("accounts.urls")),
+    
+    url(r"^accounts/", include("django.contrib.auth.urls")),
     url(r'^sellers/', include('sellers.urls', namespace='sellers')),
 ]
 

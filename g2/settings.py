@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import braintree
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -31,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'accounts',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,9 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'accounts',
     'listings',
-    'sellers'
+    'sellers',
 ]
 
 MIDDLEWARE = [
@@ -130,3 +131,13 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 AUTH_USER_MODEL = "accounts.User"
 LOGIN_REDIRECT_URL = 'home'
+
+SESSION_COOKIE_AGE = 60 * 60 * 24 * 30
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+
+braintree.Configuration.configure(braintree.Environment.Sandbox,
+                                  merchant_id="chr2rdhqgh55t3pr",
+                                  public_key="dz2mnsqjrjdqtwhd",
+                                  private_key="66b9773e16fd6ed11c4349d9c18acc66")
+

@@ -13,6 +13,8 @@ class Listing(models.Model):
     user = models.ForeignKey(to=settings.AUTH_USER_MODEL, blank=True, null=True)
     document = models.FileField(upload_to='documents/', null=True)
     created = models.DateTimeField(default=timezone.now)
+    is_active = models.BooleanField(default=True)
+    status = models.CharField(default="",null=True, blank=True, max_length=10)
 
     desc = models.TextField()
     

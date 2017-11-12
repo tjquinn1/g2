@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% load static  %}
+
+{% block content %}
+    <div class="row">
+        <div>
+            <h1>My Listings</h1>
+
+
+        </div>
+        <div>
+            {% if user.is_seller == True %}
+                <a class='btn btn-primary' role="button" href="{% url 'listings:new' %}">New Listing</a>
+            {% endif %}
+        </div>
+    </div>
+    <div>
+        {% if listings %}
+            {%  for listing in listings %}
+                {% if forloop.first %}<div class="row">{% endif %}
+                    <div class="col-sm-4">
+                            <a href="{% url 'listings:detail' pk=listing.pk %}">
+                                <div class="card" style="width: 20rem;">
+                                <img class="card-img-top" src="{{ MEDIA_URL }}/{{listing.document}}" alt="Card image cap">
+                            </a>
+                                <div class="card-body">
+                                    <a href="{% url 'listings:detail' pk=listing.pk %}">
+                                        <h4 class="card-title">{{ listing.name }}</h4>
+                                        <p class="card-text">{{listing.desc}}</p>
+                                    </a>
+                                    {% if listing.user_id == request.user.id %}
+                                        <a class="btn btn-primary" href="{% url 'listings:edit' pk=listing.pk %}" onclick='overlay()' >Edit</a>
+                                    {% endif %}
+                                </div>
+                            
+                        </div>
+                    </div>
+                    {% if forloop.counter|divisibleby:3 %}</div><div class="row">{% endif %}
+                    {% if forloop.last %}</div>{% endif %}
+            {% endfor %}
+        {% else %}
+            <h1>You Do Not Have Any Listings</h1>
+        {% endif %}
+    </div>
+{% endblock %}

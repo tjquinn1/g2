@@ -21,6 +21,7 @@ class UserManager(BaseUserManager):
             email=self.normalize_email(email),
             first_name = first_name,
             last_name = last_name,
+            is_seller = is_seller,
         )
 
         user.set_password(password)
@@ -55,6 +56,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     date_joined = models.DateTimeField(default=timezone.now)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    is_seller = models.BooleanField(default=False) 
 
     objects = UserManager()
 

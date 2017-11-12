@@ -5,6 +5,16 @@
 <h1>{{ listing.name }}</h1>
 <h1>{{ listing.created }}</h1>
 
-<a href="{% url 'listings:bought' pk=listing.pk %}" class="btn btn-primary">Buy</a>
+<a href="{% url 'listings:new_checkout' pk=listing.pk %}" class="btn btn-primary">Buy</a>
+{% if listing.user_id == request.user.id %}
+    <div class="row">
+        <form  method="post" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+
+            <input class="btn btn-danger" type="submit" value="Delete" />
+        </form>
+    </div>
+{% endif %}
 
 {% endblock %}

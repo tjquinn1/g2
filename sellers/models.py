@@ -18,7 +18,7 @@ class Seller(models.Model):
     street = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
-    zip = models.CharField(max_length=5, validators=[RegexValidator(r'^\d{1,10}$')])
+    zipp = models.CharField(max_length=5, validators=[RegexValidator(r'^\d{1,10}$')])
     display_name = models.CharField(max_length=50, unique=True)
     
 
@@ -39,4 +39,4 @@ class Seller(models.Model):
     )
 
     def __str__(self):              # __unicode__ on Python 2
-        return self.first_name
+        return self.display_name

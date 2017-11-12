@@ -4,4 +4,66 @@
 
 h1 {
     color: green;
+    text-align: center;
+    width: 100%;
+}
+
+
+ul {
+    list-style-type: none;
+}
+
+.messages {
+    padding-top: 10px;
+}
+.form-container {
+    border: 1px solid #999;
+    /*background-color: #e5e5e5;*/
+    margin-top: 5%;
+    padding-top: 2%;
+}
+.form {
+    width: 80%;
+    display: inline-block;
+    text-align: center;
+}
+.form-group {
+    display: block;
+    padding-left: 20%;
+    
+}
+.card_body{
+    text-decoration: none!important;
+    color: black;
+}
+
+.card-body a:hover {
+    text-decoration: none!important;
+    color: black;
+
+}
+
+.card_body{
+    text-decoration: none!important;
+    color: black;
+}
+
+.card-title {
+    text-decoration: none!important;
+    color: black;
+}
+
+.card-text {
+    text-decoration: none!important;
+    color: black;
+}
+#overlay {
+    visibility: hidden;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width:100%;
+    height:100%;
+    text-align:center;
+    z-index: 1000;
 }
