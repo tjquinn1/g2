@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 import braintree
+import celery
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -140,4 +141,16 @@ braintree.Configuration.configure(braintree.Environment.Sandbox,
                                   merchant_id="chr2rdhqgh55t3pr",
                                   public_key="dz2mnsqjrjdqtwhd",
                                   private_key="66b9773e16fd6ed11c4349d9c18acc66")
+
+
+
+# Celery settings
+
+CELERY_BROKER_URL = 'amqp://localhost'
+
+#: Only add pickle to this list if your broker is secured
+#: from unwanted access (see userguide/security.html)
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_RESULT_BACKEND = 'db+sqlite:///results.sqlite'
+CELERY_TASK_SERIALIZER = 'json'
 

@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.utils import timezone
+from django.core.validators import MinLengthValidator
 
 # Create your models here.
 # Create the form class.
@@ -40,3 +41,4 @@ class Bought(models.Model):
     buyer = models.ForeignKey(to=settings.AUTH_USER_MODEL, blank=True, null=True)
     seller = models.IntegerField(null=True, blank=True)
     item = models.ForeignKey(Listing, blank=True, null=True)
+    trans = models.CharField(max_length=8)
