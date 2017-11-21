@@ -120,3 +120,8 @@ function Demo(config){
 	var response = new Response();
   });
 	
+	$('#bought').on('submit', function(event){
+    event.preventDefault();
+    console.log("form submitted!")  // sanity check
+    create_post();
+});

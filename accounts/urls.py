@@ -9,4 +9,5 @@ urlpatterns = [
     url(r"signup/$", views.SignUp.as_view(), name="signup"),
     url(r'edit/$', views.Edit, name='edit'),
     url(r'^login/$', views.login, name='login'),
+    url(r'^profile/$', views.Profile, name='profile'),
 ]

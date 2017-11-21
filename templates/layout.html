@@ -6,8 +6,8 @@
         <title>Gidget</title>
         <!-- Required meta tags -->
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">        
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">        
         <link rel="stylesheet"  type="text/css" href="{% static 'css/base.css' %}" />
         <link type="text/javascript" href="{% static 'js/app.js' %}"/>
        
@@ -34,7 +34,7 @@
                         Sellers
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Profile</a>
+                        <a class="dropdown-item" href="{% url 'sellers:profile' %}">Profile</a>
                         <a class="dropdown-item" href="{% url 'listings:my_listings' %}">My Listings</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">Something else here</a>
@@ -46,12 +46,23 @@
                     {% endif %} 
                     <li class="nav-item">
                         {% if user.is_authenticated %}
-                            <li class="nav-link">Hello {{ user.first_name }}</li>
-                            <a class="nav-link" href="{% url 'logout'%}?next={{request.path}}">Logout</a>   
+                            <a class="nav-link" href="{% url 'logout'%}?next={{request.path}}">Logout</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Hello {{ user.first_name }}
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{% url 'accounts:profile' %}">Profile</a>
+                                <a class="dropdown-item" href="{% url 'listings:my_listings' %}">My Listings</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                                </div>
+                            </li>   
                         {% else %}
                         
-                        <li class="nav-item"><a class="nav-link" href="{% url 'login'%}?next={{request.path}}">Login</a></li> <li class="nav-item"><a class="nav-link" href="{% url 'signup' %}">Sign Up</a></li>
-                           
+                        <li class="nav-item"><a class="nav-link" href="{% url 'login'%}?next={{request.path}}">Login</a></li> 
+                        <li class="nav-item"><a class="nav-link" href="{% url 'accounts:signup' %}">Sign Up</a></li>
+                        
                         {% endif %} 
                     </li>
                     </ul>
@@ -75,7 +86,8 @@
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/livestamp/1.1.2/livestamp.min.js"></script>
-            <script src="{% static 'js/app.js' %}"></script>
             <script src="https://js.braintreegateway.com/web/dropin/1.8.1/js/dropin.min.js"></script>
+            <script src="{% static 'js/app.js' %}"></script>
+            {% block javascript %}{% endblock %}
     </body>
 </html>

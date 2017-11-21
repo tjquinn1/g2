@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% load static  %}
+
+{% block content %}
+
+<table class="table table-hover">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">Service</th>
+            <th scope="col">Seller</th>
+            <th scope="col">Date Bought</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for bought in boughts %}
+        <tr>
+            
+            <td>{{bought.item.name}}</td>
+            <td>{{ bought.seller.display_name }}</td>
+            <td>{{ bought.created }}</td>
+            
+            
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

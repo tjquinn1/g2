@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.utils import timezone
+from sellers.models import Seller
 
 # Create your models here.
 # Create the form class.
@@ -37,6 +38,8 @@ class Listing(models.Model):
 
 
 class Bought(models.Model):
-    buyer = models.ForeignKey(to=settings.AUTH_USER_MODEL, blank=True, null=True)
-    seller = models.IntegerField(null=True, blank=True)
-    item = models.ForeignKey(Listing, blank=True, null=True)
+    buyer = models.ForeignKey(to=settings.AUTH_USER_MODEL, blank=True, null=True, related_name='buyers')
+    seller = models.ForeignKey(Seller,null=True, blank=True)
+    item = models.ForeignKey(Listing, blank=True, null=True, related_name='items')
+    trans_id = models.CharField(default="",null=True, blank=True, max_length=8)
+    created = models.DateTimeField(default=timezone.now)
