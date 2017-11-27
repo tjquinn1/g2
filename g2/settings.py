@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'listings',
     'sellers',
+    'graphene_django',
 ]
 
 MIDDLEWARE = [
@@ -141,3 +142,7 @@ braintree.Configuration.configure(braintree.Environment.Sandbox,
                                   public_key="dz2mnsqjrjdqtwhd",
                                   private_key="66b9773e16fd6ed11c4349d9c18acc66")
 
+
+GRAPHENE = {
+    'SCHEMA': 'g2.schema.schema'
+}

@@ -68,7 +68,7 @@ def bought(request, pk):
             # process the data in form.cleaned_data as required
             bought = form.save(commit=False)
             bought.buyer = request.user
-            bought.seller = listing.user_id
+            bought.seller = get_object_or_404(models.listing, pk=listing.user_id)
             bought.item = get_object_or_404(models.Listing, pk=pk)
             bought.save()
             messages.add_message(request, messages.SUCCESS, "Listing Purchased")
@@ -103,6 +103,7 @@ def client_token(request):
 def new_checkout(request, pk):
     client_token = braintree.ClientToken.generate()
     listing = get_object_or_404(models.Listing, pk=pk)
+    request.session["user"] = request.user.id
     return render(request,'listings/new_checkout.html', {'client_token':client_token, 'listing':listing})
 
 def show_checkout(request,transaction_id, pk):
@@ -117,17 +118,22 @@ def show_checkout(request,transaction_id, pk):
     braintree.Transaction.Status.Settling,
     braintree.Transaction.Status.SubmittedForSettlement
 ]
-
     if transaction.status in TRANSACTION_SUCCESS_STATUSES:
-        if transaction.status == braintree.Transaction.Status.SubmittedForSettlement:
-            listing = get_object_or_404(models.Listing, pk=pk) 
-            form = forms.StatusForm()
-            if request.method == 'POST':
-                form = forms.StatusForm(request.POST)
-                if form.is_valid():
-                    form.save(commit=False)
-                    listing.status = 'Authed'
-                    form.save()
+        listing = get_object_or_404(models.Listing, pk=pk)
+        form = forms.BoughtForm(instance=listing)
+        # if this is a POST request we need to process the form data
+            # create a form instance and populate it with data from the request:
+        form = forms.BoughtForm(request.POST)
+            # check whether it's valid:
+            #if form.is_valid():
+                # process the data in form.cleaned_data as required
+        listing = get_object_or_404(models.Listing, pk=pk)
+        bought = form.save(commit=False)
+        bought.buyer = request.user
+        bought.seller = listing.user_id
+        bought.item = Listing.objects.get(id = listing.id)
+        bought.trans_id = transaction_id
+        bought.save()
     if transaction.status in TRANSACTION_SUCCESS_STATUSES:
         result = {
             'header': 'Sweet Success!',

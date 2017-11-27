@@ -9,6 +9,9 @@ from . import forms
 from django.template import RequestContext
 from django.contrib.auth import (login as auth_login,  authenticate)
 from django.http import HttpResponseRedirect
+from listings.models import Listing
+from listings.models import Bought
+import braintree
 
 
 def login(request):
@@ -63,3 +66,14 @@ def Edit(request):
             messages.success(request, "Updated {}".format(form.cleaned_data['name']))
             return HttpResponseRedirect('/')
     return render(request, 'accounts/signup.html', {'form': form})
+
+@login_required
+def Profile(request):
+    uid = request.user.id
+    boughts = Bought.objects.filter(buyer_id=uid)
+    
+        
+    
+
+    #transaction = braintree.Transaction.find("the_transaction_id")
+    return render(request, 'accounts/profile.html', {'boughts': boughts})

@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf import settings
 from django.conf.urls.static import static
+from graphene_django.views import GraphQLView
 
 from . import views
 
@@ -25,10 +26,11 @@ urlpatterns = [
     url(r"^$", views.Home.as_view(), name="home"),
     url(r"^admin/", admin.site.urls),
     url(r'^listings/', include('listings.urls', namespace='listings')),
-    url(r"^accounts/", include("accounts.urls")),
+    url(r"^accounts/", include("accounts.urls", namespace='accounts')),
     
     url(r"^accounts/", include("django.contrib.auth.urls")),
     url(r'^sellers/', include('sellers.urls', namespace='sellers')),
+    url(r'^graphql', GraphQLView.as_view(graphiql=True)),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

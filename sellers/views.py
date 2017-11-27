@@ -9,7 +9,7 @@ from accounts.models import User
 from django.contrib.auth.decorators import login_required
 from accounts.forms import UserCreateForm
 from accounts.models import User
-
+from listings.models import Bought
 
 
 # Create your views here.
@@ -18,6 +18,7 @@ def Home(request):
     user = request.user
     listings = Listing.objects.filter(user_id=request.user.id)
     return render(request, 'sellers/home.html', {'listings':listings}) 
+
 @login_required
 def New(request):
     form = forms.SellerForm()
@@ -48,3 +49,9 @@ def New(request):
 
     return render(request, 'sellers/new.html', {'form': form, 'signup': signup})
 
+@login_required
+def Profile(request):
+    uid = request.user.id
+    boughts = Bought.objects.filter(seller_id=uid)
+
+    return render(request, 'sellers/profile.html', {'boughts': boughts})
