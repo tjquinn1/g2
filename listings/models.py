@@ -43,3 +43,4 @@ class Bought(models.Model):
     item = models.ForeignKey(Listing, blank=True, null=True, related_name='items')
     trans_id = models.CharField(default="",null=True, blank=True, max_length=8)
     created = models.DateTimeField(default=timezone.now)
+    redeemed = models.BooleanField(default=False)

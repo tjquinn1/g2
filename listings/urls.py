@@ -14,6 +14,4 @@ urlpatterns = [
     url(r'^client_token', views.client_token, name='client_token'),
     url(r'^checkouts/create/(?P<pk>\d+)', views.create_checkout, name='create_checkout'),
     url(r'^checkouts/(?P<transaction_id>\w+)/(?P<pk>\d+)', views.show_checkout, name='show_checkout'),
-    
-
 ]

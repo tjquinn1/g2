@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'listings',
     'sellers',
     'graphene_django',
+    'prof',
 ]
 
 MIDDLEWARE = [

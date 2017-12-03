@@ -1,5 +1,4 @@
 from django.core.urlresolvers import reverse
-from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib import messages
 from . import forms
@@ -10,6 +9,10 @@ from django.contrib.auth.decorators import login_required
 from accounts.forms import UserCreateForm
 from accounts.models import User
 from listings.models import Bought
+from django.shortcuts import get_object_or_404, render
+import random
+import string
+import datetime
 
 
 # Create your views here.
@@ -55,3 +58,22 @@ def Profile(request):
     boughts = Bought.objects.filter(seller_id=uid)
 
     return render(request, 'sellers/profile.html', {'boughts': boughts})
+
+
+def redeem(request, pk):
+    
+    bought = get_object_or_404(Bought, pk=pk)
+    code = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for _ in range(6))
+    now = datetime.datetime.now()
+    expire = now + datetime.timedelta(minutes = 10)
+
+    form = forms.CodeForm()
+    form = forms.CodeForm(request.POST)
+    bought = get_object_or_404(Bought, pk=pk)
+    c = form.save(commit=False)
+    c.bought = Bought.objects.get(id = bought.id)
+    c.code = code
+    c.expire = expire
+    c.save()
+
+    return render(request, 'sellers/redeem.html', {'form':form, 'bought': bought, 'code': code})

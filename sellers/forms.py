@@ -2,6 +2,7 @@ from django import forms
 from . import models
 from django.apps import apps
 from django.contrib.auth import get_user_model
+from prof.models import Code
 
 class SellerForm(forms.ModelForm):
     class Meta:
@@ -35,3 +36,11 @@ class PartialUserForm(forms.ModelForm):
         fields = [
 
         ]
+
+
+class CodeForm(forms.ModelForm):
+    class Meta:
+        model = Code
+        fields = {
+            
+        }

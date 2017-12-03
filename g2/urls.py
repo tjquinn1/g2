@@ -27,13 +27,14 @@ urlpatterns = [
     url(r"^admin/", admin.site.urls),
     url(r'^listings/', include('listings.urls', namespace='listings')),
     url(r"^accounts/", include("accounts.urls", namespace='accounts')),
-    
+    url(r"^prof/", include("prof.urls", namespace='prof')),
     url(r"^accounts/", include("django.contrib.auth.urls")),
     url(r'^sellers/', include('sellers.urls', namespace='sellers')),
     url(r'^graphql', GraphQLView.as_view(graphiql=True)),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
 
 
 if settings.DEBUG:

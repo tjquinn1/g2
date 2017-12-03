@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>This is redeem</h1>
+<h1>{{ bought.item.name }}</h1>
+<h1>{{ bought.item.created }}</h1>
+<a href="{% url 'prof:redeem' pk=bought.pk %}">Redeem</a>
+
+{% endblock %}

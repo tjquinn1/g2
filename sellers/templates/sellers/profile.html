@@ -18,6 +18,7 @@
             <td>{{bought.item.name}}</td>
             <td>{{ bought.buyer.first_name }}</td>
             <td>{{ bought.created }}</td>
+            <td><a href="{% url 'sellers:redeem' pk=bought.id %}">Reedem</a></td>
             
             
         </tr>

@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% load static  %}
+
+{% block content %}
+    <div class="row">
+        <div>
+            <h1>Purchased Listings</h1>
+
+
+        </div>
+    </div>
+    <div>
+        {% if boughts %}
+            {%  for bought in boughts %}
+                {% if forloop.first %}<div class="row">{% endif %}
+                    <div class="col-sm-4">
+                        <a href="{% url 'prof:redeem_detail' pk=bought.pk %}">
+                                <div class="card" style="width: 20rem;">
+                                <img class="card-img-top" src="{{ MEDIA_URL }}{{bought.item.document}}" alt="Card image cap">
+                            </a>
+                                <div class="card-body">
+                                    <a href="{% url 'prof:redeem_detail' pk=bought.pk %}">
+                                        <h4 class="card-title">{{ bought.item.name }} - {{ bought.id }}</h4>
+                                        <p class="card-text">{{bought.item.desc}}</p>
+                                    </a>
+                                </div>
+                            
+                        </div>
+                    </div>
+                    {% if forloop.counter|divisibleby:3 %}</div><div class="row">{% endif %}
+                    {% if forloop.last %}</div>{% endif %}
+
+            {% endfor %}
+        {% else %}
+            <h1>You Do Not Have Any Listings</h1>
+        {% endif %}
+    </div>
+{% endblock %}
