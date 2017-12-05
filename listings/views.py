@@ -7,6 +7,7 @@ from django.contrib import messages
 from . import forms
 from . import models
 from listings.models import Listing
+from sellers.models import Seller
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
@@ -55,27 +56,6 @@ def detail(request, pk):
             return HttpResponseRedirect('/sellers/home/')
     return render(request, 'listings/detail.html', {'listing': listing, 'form': form})
 
-@login_required
-def bought(request, pk):
-    listing = get_object_or_404(models.Listing, pk=pk)
-    form = forms.BoughtForm(instance=listing)
-    # if this is a POST request we need to process the form data
-    if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
-        form = forms.BoughtForm(request.POST)
-        # check whether it's valid:
-        if form.is_valid():
-            # process the data in form.cleaned_data as required
-            bought = form.save(commit=False)
-            bought.buyer = request.user
-            bought.seller = get_object_or_404(models.listing, pk=listing.user_id)
-            bought.item = get_object_or_404(models.Listing, pk=pk)
-            bought.save()
-            messages.add_message(request, messages.SUCCESS, "Listing Purchased")
-            # redirect to a new URL:
-            return HttpResponseRedirect('/listings/home/')
-
-    return render(request, 'listings/bought.html', {'form': form, 'listing': listing})
 
 
 @login_required    
@@ -108,6 +88,7 @@ def new_checkout(request, pk):
 
 def show_checkout(request,transaction_id, pk):
     transaction = braintree.Transaction.find(transaction_id)
+    print(transaction)
     result = {}
     TRANSACTION_SUCCESS_STATUSES = [
     braintree.Transaction.Status.Authorized,
@@ -119,6 +100,7 @@ def show_checkout(request,transaction_id, pk):
     braintree.Transaction.Status.SubmittedForSettlement
 ]
     if transaction.status in TRANSACTION_SUCCESS_STATUSES:
+        print(transaction.status)
         listing = get_object_or_404(models.Listing, pk=pk)
         form = forms.BoughtForm(instance=listing)
         # if this is a POST request we need to process the form data
@@ -130,11 +112,12 @@ def show_checkout(request,transaction_id, pk):
         listing = get_object_or_404(models.Listing, pk=pk)
         bought = form.save(commit=False)
         bought.buyer = request.user
-        bought.seller = listing.user_id
+        bought.seller = get_object_or_404(Seller, pk=listing.user_id)
         bought.item = Listing.objects.get(id = listing.id)
         bought.trans_id = transaction_id
         bought.save()
     if transaction.status in TRANSACTION_SUCCESS_STATUSES:
+        print(transaction.status)
         result = {
             'header': 'Sweet Success!',
             'icon': 'success',
@@ -151,19 +134,27 @@ def show_checkout(request,transaction_id, pk):
 
 def create_checkout(request, pk):
     listing = get_object_or_404(models.Listing, pk=pk)
+    print("Create")
+    a = float(request.POST['amount'])
+    escrow = round(a * .15, 2)
+    escrow_amount = str(escrow)
     result = braintree.Transaction.sale({
         'amount': request.POST['amount'],
-        "service_fee_amount": int(request.POST['amount']) * .15,
+        "merchant_account_id": "janesladders_instant_0cg6sqt5",
         'payment_method_nonce': request.POST['payment_method_nonce'],
         'options': {
-            "submit_for_settlement": True
-        }
+            "submit_for_settlement": True,
+            "hold_in_escrow": True,
+        },
+        "service_fee_amount": escrow_amount,
     })
 
     if result.is_success or result.transaction:
+        print("yes")
         return HttpResponseRedirect('/listings/checkouts/{0}/{1}'.format(result.transaction.id, pk))
     else:
-        #for x in result.errors.deep_errors: flash('Error: %s: %s' % (x.code, x.message))
+        
+        for x in result.errors.deep_errors: print('Error: %s: %s' % (x.code, x.message))
         return HttpResponseRedirect('listings/checkouts/%i' % listing.id)
 
 if __name__ == '__main__':
