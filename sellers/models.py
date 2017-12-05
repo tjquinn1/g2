@@ -20,6 +20,8 @@ class Seller(models.Model):
     state = models.CharField(max_length=100)
     zipp = models.CharField(max_length=5, validators=[RegexValidator(r'^\d{1,10}$')])
     display_name = models.CharField(max_length=50, unique=True)
+    merch = models.CharField(max_length=50, default='')
+    email = models.EmailField(default='')
     
 
     

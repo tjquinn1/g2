@@ -1,0 +1,104 @@
+{% extends "layout.html" %}
+
+
+{% block content %}
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="alert alert-danger alert-dismissible fade show" role="alert"{% endif %}>{{ message }}>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span></button>
+    </li>
+    
+    {% endfor %}
+</ul>
+{% endif %}
+
+
+
+<div class="form-container col-6 offset-3">
+    <div class="row">
+        <h1>Become a Provider</h1>
+    </div>
+    <div class="row">
+        <div class="form">
+            <form  method="post" action="" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ merch.phone.errors }}
+                    <label for="{{ merch.phone.id_for_label }}">Phone Number</label>
+                    {{ merch.phone }}
+                </div>
+                <div class="form-group">
+                    {{ merch.dob.errors }}
+                    <label for="{{ merch.dob.id_for_label }}">Date of Birth</label>
+                    {{ merch.dob }}
+                </div>
+                <div class="form-group">
+                    {{ merch.ssn.errors }}
+                    <label for="{{ merch.ssn.id_for_label }}">Last Four of SSN</label>
+                    {{ merch.ssn }}
+                </div>
+                <div class="form-group">
+                    {{ merch.legal.errors }}
+                    <label for="{{ merch.legal.id_for_label }}">Legal Name</label>
+                    {{ merch.legal }}
+                </div>
+                <div class="form-group">
+                    {{ merch.dba.errors }}
+                    <label for="{{ merch.dba.id_for_label }}">DBA</label>
+                    {{ merch.dba }}
+                </div>
+                <div class="form-group">
+                    {{ merch.tax.errors }}
+                    <label for="{{ merch.tax.id_for_label }}">Tax</label>
+                    {{ merch.tax }}
+                </div>
+                <div class="form-group">
+                    {{ merch.biz_street.errors }}
+                    <label for="{{ merch.biz_street.id_for_label }}">Street</label>
+                    {{ merch.biz_street }}
+                </div>
+                <div class="form-group">
+                    {{ merch.biz_city.errors }}
+                    <label for="{{ merch.biz_city.id_for_label }}">City</label>
+                    {{ merch.biz_city }}
+                </div>
+                <div class="form-group">
+                    {{ merch.biz_state.errors }}
+                    <label for="{{ merch.biz_state.id_for_label }}">State</label>
+                    {{ merch.biz_state }}
+                </div>
+                <div class="form-group">
+                    {{ merch.biz_zipp.errors }}
+                    <label for="{{ merch.biz_zipp.id_for_label }}">Zip</label>
+                    {{ merch.biz_zipp }}
+                </div>
+                <div class="form-group">
+                    {{ merch.funding_name.errors }}
+                    <label for="{{ merch.funding_name.id_for_label }}">Bank Name</label>
+                    {{ merch.funding_name }}
+                </div>
+                <div class="form-group">
+                    {{ merch.acc_num.errors }}
+                    <label for="{{ merch.acc_num.id_for_label }}">Bank Account Number</label>
+                    {{ merch.acc_num }}
+                </div>
+                <div class="form-group">
+                    {{ merch.routing.errors }}
+                    <label for="{{ merch.routing.id_for_label }}">Routing Number</label>
+                    {{ merch.routing }}
+                </div>
+                <div class="form-group">
+                    {{ merch.tos.errors }}
+                    <label for="{{ merch.tos.id_for_label }}">Terms of Service</label>
+                    {{ merch.tos }}
+                </div>
+
+
+                {{ signup.as_p }}
+                <input type="submit" value="Submit" class="btn btn-primary"/>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

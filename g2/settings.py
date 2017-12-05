@@ -147,3 +147,9 @@ braintree.Configuration.configure(braintree.Environment.Sandbox,
 GRAPHENE = {
     'SCHEMA': 'g2.schema.schema'
 }
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = '1025'
+EMAIL_USE_TLS = True

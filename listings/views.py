@@ -153,6 +153,7 @@ def create_checkout(request, pk):
     listing = get_object_or_404(models.Listing, pk=pk)
     result = braintree.Transaction.sale({
         'amount': request.POST['amount'],
+        "service_fee_amount": int(request.POST['amount']) * .15,
         'payment_method_nonce': request.POST['payment_method_nonce'],
         'options': {
             "submit_for_settlement": True
